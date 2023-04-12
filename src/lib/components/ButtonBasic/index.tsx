@@ -5,14 +5,13 @@ interface IpropsButton {
   label: string,
   variant: "text" | "contained" | "outlined",
   onClick?: () => void,
-  style?: any
+  style?: any,
+  type?: "submit" | "button" | "reset"
 }
 
-export default function ButtonBasic({ label, variant, onClick, style } : IpropsButton) {
+export default function ButtonBasic({ type, label, variant, onClick, style } : IpropsButton) {
   return (
     
-    <Button sx={style} onClick={onClick} variant={variant} >{label}</Button>
+    <Button type={type} sx={style} onClick={onClick} variant={variant} >{label}</Button>
   )
 }
-
-// {width: {width}, padding:'15px 0', backgroundColor: '#007AFF'

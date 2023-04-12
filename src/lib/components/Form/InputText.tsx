@@ -5,14 +5,17 @@ interface IpropsInputText {
   label: string,
   placeholder: string,
   type: string,
-  defaultValue?: string | number ,
+  value?: string | number ,
+  onChange?:  () => void,
+  error?: any,
+  helperText?: any
 }
 
-export default function InputText({ defaultValue, label, placeholder, type } : IpropsInputText) {
+export default function InputText({value, label, placeholder, type, onChange, error, helperText } : IpropsInputText) {
   return (
     <Box sx={{width: 340}} > 
       <InputLabel htmlFor="component-simple">{label}</InputLabel>
-      <TextField defaultValue={defaultValue} type={type} id="outlined-disabled" placeholder={placeholder}  sx={{ '& .MuiOutlinedInput-root':{borderRadius: '7px', borderColor: '#B7C0C9' },  '& .MuiInputBase-input':{padding:'17px'}, marginTop: '15px', width: '100%'}}/>
+      <TextField error={error} helperText={helperText} onChange={onChange} value={value} type={type} placeholder={placeholder}  sx={{ '& .MuiOutlinedInput-root':{borderRadius: '7px', borderColor: '#B7C0C9' },  '& .MuiInputBase-input':{padding:'15px'}, margin: '10px 0px 15px', width: '100%'}}/>
     </Box>
     
   )
