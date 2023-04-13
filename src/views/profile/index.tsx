@@ -7,11 +7,12 @@ import { ProfileUser } from "../../lib/components/ProfileUser";
 import { WallUrls } from "../../lib/components/WallUrls";
 import { boxStyles, buttonLoginStyles, gridStyles, buttonStyles } from "./styles";
 import { useProfileStore } from "../../lib/stores/profileStore";
+import { Navigate } from "react-router-dom";
 
 
 interface IFormInput {
 url: string;
-nameUrl: string;
+name: string;
 }
 
 export const Profile = () => {
@@ -20,16 +21,23 @@ export const Profile = () => {
 
     const addUrl = useProfileStore((state: any) => state.addUrl)
 
+    const currentUser =  JSON.parse(localStorage.getItem("user") as string)
 
     const onSubmit: SubmitHandler<IFormInput> = (data) => {
         const dataUrl = {
-            id:  Date.now(),
+            // id:  Date.now(),
             url: data.url,
-            nameUrl: data.nameUrl,
+            name: data.nameUrl,
         }
-        console.log(data);
-        addUrl(dataUrl)
+        // console.log(data);
+        addUrl(currentUser.token, dataUrl)
     };
+
+    const logout = () => { 
+        localStorage.clear()
+        console.log("cerrar sesion")
+        return <Navigate to='/' replace /> //no me redirecciona
+    }
 
     return (
         <Grid sx={gridStyles}>
@@ -40,6 +48,7 @@ export const Profile = () => {
                     label="LOGOUT"
                     variant="outlined"
                     style={buttonLoginStyles}
+                    onClick={logout}
                 />
             </Box>
             
@@ -71,7 +80,7 @@ export const Profile = () => {
                     )}
                 />
                 <Controller
-                    name="nameUrl"
+                    name="name"
                     control={control}
                     defaultValue=""
                     rules={{ required: "Requiered" }}

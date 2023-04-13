@@ -5,6 +5,7 @@ import InputText from "../../lib/components/Form/InputText";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { gridStyles, buttonSingInStyles, buttonStyles } from "./style";
 import { useUserStore } from "../../lib/stores/userStore";
+import { Link } from "react-router-dom";
 
 
 interface IFormInput {
@@ -24,24 +25,27 @@ export const Signup = () => {
 
     const onSubmit: SubmitHandler<IFormInput> = (data) => {
         const dataUserSignIn = {
-            id:  Date.now(),
+            // id:  Date.now(),
             name: data.name,
             email: data.email,
             password: data.password,
             image: ''
         }
-        // console.log(dataUserSignIn, "<<<<<<<<<<<<<<<");
+        console.log(dataUserSignIn, "<<<<<<<<<<<<<<<");
         signup(dataUserSignIn)
     };
 
     return (
         <Box sx={{ position: "relative", display:"flex", justifyContent: "space-evenly", alignItems: "center", gap: "30px"}}>
             <Grid sx={gridStyles}>
-            <ButtonBasic
-                label="LOGIN"
-                variant="outlined"
-                style={buttonSingInStyles}
-            />
+            
+            <Link to="/">
+                <ButtonBasic
+                    label="LOGIN"
+                    variant="outlined"
+                    style={buttonSingInStyles}
+                />
+            </Link>
 
             <Logo />
 

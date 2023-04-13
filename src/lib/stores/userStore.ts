@@ -1,12 +1,11 @@
 import { create } from "zustand";
-//"http://ec2-54-160-84-172.compute-1.amazonaws.com:3000/auth/login?email=paula@gmail.com&password=e10adc3949ba59abbe56e057f20f883e"
+
 
 const _url = 'http://ec2-54-160-84-172.compute-1.amazonaws.com:3000/auth'
 
 const signInUser = (set : any, get: any)  => async (data : any)=> {
 
-    // const signInUser = async (data: any) => {
-
+        const currentUser = get()
         const params = {
             method: 'POST',
             headers: {
@@ -15,6 +14,9 @@ const signInUser = (set : any, get: any)  => async (data : any)=> {
             },
             body: JSON.stringify(data)
         }
+
+        console.log("params", params);
+        
 
         const response = await fetch(`${_url}/singin`, params)
         console.log(response, "hhhh");
@@ -27,26 +29,26 @@ const signInUser = (set : any, get: any)  => async (data : any)=> {
         const dataUser = await response.json()
         console.log(dataUser, "data user");
 
-        // console.log({
-        //     url : `${_url}/singin`,
-        //     params: params
-        // })
-            
-        // return set({ user: dataUser})
+        // set({ currentUser, data: dataUser.data}) //data usuario 
     }
 
-    const loginUser = (set : any, get: any)  => async (email : string , password: string) => {
+    const loginUser = (set : any, get: any)  => async (data : any) => {
+
+        // console.log("data entra peticion login", data);
+        // const currentUser = get()
+        // console.log("usuario actual", currentUser);
+        
 
         const params = {
             method: 'POST',
             headers: {
                 'accept': 'application/json',
-                'content-type': 'application/x-www-form-urlencoded'
+                'Content-Type': 'application/json'
             },
-            body: ''
+            body: JSON.stringify(data)
         }
 
-        const response = await fetch(`${_url}/login?email=${email}&password=${password}`, params)
+        const response = await fetch(`${_url}/login`, params)
         console.log("data user login", response)
 
         
@@ -54,26 +56,24 @@ const signInUser = (set : any, get: any)  => async (data : any)=> {
             throw "Error login"
         }
         
-        const dataUser = await response.json()
+        const dataUser = await response.json() //recibo el token
         console.log("data user login", dataUser)
 
-        
+        if (dataUser.message === 'success' ) { // asi el mensaje sea diferente entra al condicional
             
-        // return dataUser
+            const user = {data: dataUser.data, token: dataUser.token}
+            localStorage.setItem("user", JSON.stringify(user))
+            set({ user: user})
+            console.log("si hay ususario que loguear")
+            
+        } else {
+
+            console.log("no hay usuario para loguear");
+        }
+
     }
 
 
-    // return {
-    //     signInUser, 
-    //     loginUser
-    // }
-    //hacer peticion 
-    //setear data 
-    // si sale mal error
-
-// }
-
-// const 
 
 
 export const useUserStore = create((set, get) => ({
@@ -86,27 +86,3 @@ export const useUserStore = create((set, get) => ({
     //     )},
     // removeAllBears: () => set({ bears: 0 }),
   }))
-
-
-
-// const _url = `${config.urlApi}/auth`
-
-// export const login = async (credentialResponse: any) => {
-//   const authHeader = new Headers({ "Content-Type": "application/json" })
-
-//   const params = {
-//     headers: authHeader,
-//     method: "POST",
-//     body: JSON.stringify({ google_token: credentialResponse.credential, source: "backoffice" })
-//   }
-
-//   const response = await fetch(`${_url}/google/login`, params)
-
-//   if (response.status !== 200) {
-//     throw "Error on google login"
-//   }
-
-//   const data = await response.json()
-
-//   return data
-// }

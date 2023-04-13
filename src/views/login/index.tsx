@@ -6,6 +6,7 @@ import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { useState } from "react";
 import { buttonStyles, gridStyles, buttonSingInStyles } from "./styles";
 import { useUserStore } from "../../lib/stores/userStore";
+import { Link, Navigate } from "react-router-dom";
 
 
 interface IFormInput {
@@ -14,24 +15,38 @@ interface IFormInput {
 }
 
 export const Login = () => {
+
     const { control, handleSubmit } = useForm();
 
     const login = useUserStore((state: any)=> state.loginUser)
-    console.log("user store login", login)
+    const user = useUserStore((state: any)=> state.user)
 
-    const onSubmit: SubmitHandler<IFormInput> = (data) => {
-        login(data.email, data.password)
-    console.log(data);
+    console.log("user store login", user)
+
+    const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+        const dataUserLogin = {
+            email: data.email,
+            password: data.password
+        }
+        
+        login(dataUserLogin)
+
+        // const userlocalStorage = JSON.parse(localStorage.getItem("user") as string)
+        if (user) return <Navigate to="profile/"/>
+        
     };
 
     return (
         <Box sx={{ position: "relative" }}>
             <Grid sx={gridStyles}>
-            <ButtonBasic
-                label="SIGNUP"
-                variant="outlined"
-                style={buttonSingInStyles}
-            />
+            
+            <Link to="signup">
+                <ButtonBasic
+                    label="SIGNUP"
+                    variant="outlined"
+                    style={buttonSingInStyles}
+                />
+            </Link>
 
             <Logo />
 
