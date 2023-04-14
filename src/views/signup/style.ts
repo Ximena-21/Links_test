@@ -23,4 +23,34 @@ const buttonSingInStyles = {
   borderColor: "#007AFF",
 };
 
-export { gridStyles, buttonStyles, buttonSingInStyles };
+const boxSignUpStyles = {
+  position: "relative",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  gap: "30px",
+}
+
+const typographySingUpStyles = {
+  width: "100%",
+  color: "black",
+  fontWeight: "bolder",
+  margin: "20px 0px 10px",
+}
+
+const typographyTextStyles = {
+  width: "300px",
+  textAlign: "center",
+  fontSize: "13px",
+  margin: "15px auto",
+  "& > span": { color: "#007AFF" },
+}
+
+export { 
+  gridStyles, 
+  buttonStyles, 
+  buttonSingInStyles, 
+  boxSignUpStyles, 
+  typographySingUpStyles,
+  typographyTextStyles
+};

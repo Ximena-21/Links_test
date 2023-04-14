@@ -3,7 +3,7 @@ import Logo from "../../assets/images/Logo";
 import ButtonBasic from "../../lib/components/ButtonBasic";
 import InputText from "../../lib/components/Form/InputText";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
-import { gridStyles, buttonSingInStyles, buttonStyles } from "./style";
+import { gridStyles, buttonSingInStyles, buttonStyles, boxSignUpStyles, typographySingUpStyles, typographyTextStyles } from "./style";
 import { useUserStore } from "../../lib/stores/userStore";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -14,7 +14,7 @@ export interface ISignUpForm {
 }
 
 export const Signup = () => {
-  const signup = useUserStore((state) => state.signInUser);
+  const signup = useUserStore((state) => state.signUpUser);
   const navigate = useNavigate();
 
   const { control, handleSubmit } = useForm<ISignUpForm>();
@@ -32,13 +32,7 @@ export const Signup = () => {
 
   return (
     <Box
-      sx={{
-        position: "relative",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        gap: "30px",
-      }}
+      sx={boxSignUpStyles}
     >
       <Grid sx={gridStyles}>
         <Link to="/">
@@ -54,12 +48,7 @@ export const Signup = () => {
         <Typography
           component={"p"}
           variant={"h5"}
-          sx={{
-            width: "100%",
-            color: "black",
-            fontWeight: "bolder",
-            margin: "20px 0px 10px",
-          }}
+          sx={typographySingUpStyles}
         >
           Signup
         </Typography>
@@ -149,13 +138,7 @@ export const Signup = () => {
 
         <Typography
           component={"p"}
-          sx={{
-            width: "300px",
-            textAlign: "center",
-            fontSize: "13px",
-            margin: "15px auto",
-            "& > span": { color: "#007AFF" },
-          }}
+          sx={typographyTextStyles}
         >
           By Creating account You agree to the <span>Terms of use </span> and{" "}
           <span>Privacy Polycy</span>

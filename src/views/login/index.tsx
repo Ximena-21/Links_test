@@ -3,7 +3,7 @@ import Logo from "../../assets/images/Logo";
 import ButtonBasic from "../../lib/components/ButtonBasic";
 import InputText from "../../lib/components/Form/InputText";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
-import { buttonStyles, gridStyles, buttonSingInStyles } from "./styles";
+import { buttonStyles, gridStyles, buttonSingInStyles, typographyStyles } from "./styles";
 import { useUserStore } from "../../lib/stores/userStore";
 import { Link, Navigate } from "react-router-dom";
 
@@ -13,7 +13,7 @@ export interface ILoginForm {
 }
 
 export const Login = () => {
-  const { control, handleSubmit } = useForm<ILoginForm>();
+  const { control, handleSubmit, reset } = useForm<ILoginForm>();
 
   const login = useUserStore((state) => state.loginUser);
   const user = useUserStore((state) => state.user);
@@ -26,6 +26,11 @@ export const Login = () => {
     };
 
     login(dataUserLogin);
+
+    reset({
+      email:"",
+      password: ""
+    })
   };
 
   if (user.token) return <Navigate to={"/profile"} replace />;
@@ -46,12 +51,7 @@ export const Login = () => {
         <Typography
           component={"p"}
           variant={"h5"}
-          sx={{
-            width: "100%",
-            color: "black",
-            fontWeight: "bolder",
-            margin: "20px 0px 10px",
-          }}
+          sx={typographyStyles}
         >
           Login
         </Typography>

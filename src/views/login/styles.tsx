@@ -5,7 +5,7 @@ const gridStyles = {
   justifyContent: "center",
   gap: "30px",
   marginTop: "114px",
-  paddingBottom: "50px"
+  paddingBottom: "50px",
 };
 
 const buttonStyles = {
@@ -23,4 +23,11 @@ const buttonSingInStyles = {
   borderColor: "#007AFF",
 };
 
-export { gridStyles, buttonStyles, buttonSingInStyles };
+const typographyStyles = {
+  width: "100%",
+  color: "black",
+  fontWeight: "bolder",
+  margin: "20px 0px 10px",
+};
+
+export { gridStyles, buttonStyles, buttonSingInStyles, typographyStyles };

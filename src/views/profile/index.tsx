@@ -1,4 +1,4 @@
-import { Box, Grid, Stack, Typography } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import ButtonBasic from "../../lib/components/ButtonBasic";
 import Logo from "../../assets/images/Logo";
 import InputText from "../../lib/components/Form/InputText";
@@ -21,7 +21,7 @@ export interface IUrlForm {
 }
 
 export const Profile = () => {
-  const { control, handleSubmit } = useForm<IUrlForm>();
+  const { control, handleSubmit, reset} = useForm<IUrlForm>();
   const addUrl = useProfileStore((state) => state.addUrl);
   const logOut = useUserStore((state) => state.logOut);
 
@@ -34,6 +34,11 @@ export const Profile = () => {
     };
 
     addUrl(dataUrl);
+
+    reset({
+          url: "",
+          name: "",
+        })
   };
 
   const onLogout = () => {

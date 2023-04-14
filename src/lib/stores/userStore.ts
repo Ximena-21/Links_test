@@ -17,13 +17,13 @@ interface IUserStore {
     token: string
   }
   alert: string
-  signInUser: (data: ISignUpForm, callback: () => void) => void
+  signUpUser: (data: ISignUpForm, callback: () => void) => void
   loginUser: (data: ILoginForm) => void
   logOut: () => void
   setAlert: (message: string) => void 
 }
 
-const signInUser = (set: any, get: any) => async (data: ISignUpForm, callback: () => void) => {
+const signUpUser = (set: any, get: any) => async (data: ISignUpForm, callback: () => void) => {
 
   const response = await apiFetch({method: "POST", url: "/auth/singin", body: data})
 
@@ -63,7 +63,7 @@ const setAlert = (set: any, get: any) => (message: string) => {
 export const useUserStore = create<IUserStore>((set, get) => ({
   alert: "",
   user: JSON.parse(localStorage.getItem("user") || "{}"),
-  signInUser: signInUser(set, get),
+  signUpUser: signUpUser(set, get),
   loginUser: loginUser(set, get),
   logOut: logOut(set,get),
   setAlert: setAlert(set,get)
