@@ -33,4 +33,9 @@ const typographyStyles = {
   fontFamily: "Montserrat"
 };
 
+const boxStyles = {
+  position: "relative",
+  display: "flex"
+};
+
 export { gridStyles, buttonStyles, buttonSingInStyles, typographyStyles };

@@ -3,7 +3,7 @@ import Logo from "../../assets/images/Logo";
 import ButtonBasic from "../../lib/components/ButtonBasic";
 import InputText from "../../lib/components/Form/InputText";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
-import { buttonStyles, gridStyles, buttonSingInStyles, typographyStyles } from "./styles";
+import { buttonStyles, gridStyles, buttonSingInStyles, typographyStyles, boxStyles } from "./styles";
 import { useUserStore } from "../../lib/stores/userStore";
 import { Link, Navigate } from "react-router-dom";
 
@@ -36,7 +36,7 @@ export const Login = () => {
   if (user.token) return <Navigate to={"/profile"} replace />;
 
   return (
-    <Box sx={{ position: "relative" }}>
+    <Box sx={boxStyles}>
       <Grid sx={gridStyles}>
         <Link to="signup">
           <ButtonBasic
