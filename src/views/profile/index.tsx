@@ -10,10 +10,9 @@ import {
   buttonLoginStyles,
   gridStyles,
   buttonStyles,
-  containerWallStyles,
 } from "./styles";
 import { useProfileStore } from "../../lib/stores/profileStore";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { useUserStore } from "../../lib/stores/userStore";
 
 export interface IUrlForm {
@@ -63,7 +62,15 @@ export const Profile = () => {
       <ProfileUser />
 
       <div
-        style={containerWallStyles}
+        style={{
+          width: "100%",
+          maxWidth: "750px",
+          display: "flex",
+          gap: "50px",
+          flexWrap: "wrap",
+          justifyContent: "center",
+          alignItems: "center"
+        }}
       >
         <form onSubmit={handleSubmit(onSubmit)}>
           <Controller
