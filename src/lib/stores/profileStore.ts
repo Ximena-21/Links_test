@@ -14,6 +14,7 @@ interface  IProfileStore {
     urls: IUrl[]
     getDataUrls: () => void
     addUrl: (data: IUrlForm) => void
+    deleteUrl: (id: number) => void
 }
 
 const getDataUrls = (set : any, get: any)  => async () => {    
