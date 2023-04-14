@@ -13,6 +13,7 @@ const buttonStyles = {
   padding: "15px 0",
   backgroundColor: "#007AFF",
   marginTop: "10px",
+  fontFamily: "Montserrat"
 };
 
 const buttonSingInStyles = {
@@ -21,6 +22,7 @@ const buttonSingInStyles = {
   right: 0,
   color: "#007AFF",
   borderColor: "#007AFF",
+  fontFamily: "Montserrat"
 };
 
 const boxSignUpStyles = {
@@ -36,6 +38,7 @@ const typographySingUpStyles = {
   color: "black",
   fontWeight: "bolder",
   margin: "20px 0px 10px",
+  fontFamily: "Montserrat"
 }
 
 const typographyTextStyles = {
@@ -43,6 +46,7 @@ const typographyTextStyles = {
   textAlign: "center",
   fontSize: "13px",
   margin: "15px auto",
+  fontFamily: "Montserrat",
   "& > span": { color: "#007AFF" },
 }
 

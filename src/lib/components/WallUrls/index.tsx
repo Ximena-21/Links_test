@@ -4,15 +4,14 @@ import {
   Grid,
   IconButton,
   List,
-  ListItemButton,
   ListItemIcon,
   ListItemText,
   Typography,
 } from "@mui/material";
 import { DeleteOutline } from "@mui/icons-material";
 import { useProfileStore } from "../../stores/profileStore";
-import { useUserStore } from "../../stores/userStore";
 import { useEffect } from "react";
+import { ListItemStyles, boxStyles, typographyStyles } from "./styles";
 
 export const WallUrls = () => {
   const getUrls = useProfileStore((state) => state.getDataUrls);
@@ -28,13 +27,7 @@ export const WallUrls = () => {
   };
   return (
     <Box
-      sx={{
-        width: "100%",
-        maxWidth: 360,
-        bgcolor: "background.paper",
-        maxHeight: 500,
-        overflow: "auto",
-      }}
+      sx={boxStyles}
     >
       <List component="nav" aria-label="main mailbox folders">
         {dataUrls?.map((url, index: any) => (
@@ -47,11 +40,11 @@ export const WallUrls = () => {
               alignItems="center"
             >
               <ListItemText
-                sx={{ color: "#007AFF" }}
+                sx={ListItemStyles}
                 primary={url.url}
                 secondary={
                   <Typography
-                    sx={{ display: "inline" }}
+                    sx={typographyStyles}
                     component="span"
                     variant="body2"
                     color="text.primary"

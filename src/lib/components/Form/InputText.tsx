@@ -1,4 +1,5 @@
 import { Box, InputLabel, TextField } from "@mui/material";
+import { inputSyles, labelInputStyle } from "./styles";
 
 
 interface IpropsInputText {
@@ -11,11 +12,13 @@ interface IpropsInputText {
   helperText?: any
 }
 
+
+
 export default function InputText({value, label, placeholder, type, onChange, error, helperText } : IpropsInputText) {
   return (
     <Box sx={{width: 340}} > 
-      <InputLabel htmlFor="component-simple">{label}</InputLabel>
-      <TextField error={error} helperText={helperText} onChange={onChange} value={value} type={type} placeholder={placeholder}  sx={{ '& .MuiOutlinedInput-root':{borderRadius: '7px', borderColor: '#B7C0C9' },  '& .MuiInputBase-input':{padding:'15px'}, margin: '10px 0px 15px', width: '100%'}}/>
+      <InputLabel sx={labelInputStyle} htmlFor="component-simple">{label}</InputLabel>
+      <TextField error={error} helperText={helperText} onChange={onChange} value={value} type={type} placeholder={placeholder}  sx={inputSyles}/>
     </Box>
     
   )

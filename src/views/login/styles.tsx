@@ -13,6 +13,7 @@ const buttonStyles = {
   padding: "15px 0",
   backgroundColor: "#007AFF",
   marginTop: "20px",
+  fontFamily: "Montserrat"
 };
 
 const buttonSingInStyles = {
@@ -21,6 +22,7 @@ const buttonSingInStyles = {
   right: 0,
   color: "#007AFF",
   borderColor: "#007AFF",
+  fontFamily: "Montserrat"
 };
 
 const typographyStyles = {
@@ -28,6 +30,7 @@ const typographyStyles = {
   color: "black",
   fontWeight: "bolder",
   margin: "20px 0px 10px",
+  fontFamily: "Montserrat"
 };
 
 export { gridStyles, buttonStyles, buttonSingInStyles, typographyStyles };
