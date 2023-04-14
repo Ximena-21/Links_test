@@ -1,5 +1,4 @@
-const apiUrl = 'http://ec2-54-160-84-172.compute-1.amazonaws.com:3000'
-
+import { config } from "../../config"
 
 interface IApiFetch {
   method: "GET" | "POST" | "DELETE"
@@ -8,6 +7,8 @@ interface IApiFetch {
 }
 
 export const apiFetch = async ({method, url, body = null} : IApiFetch) => {
+
+  console.log(body, config)
 
   try{
     
@@ -26,9 +27,9 @@ export const apiFetch = async ({method, url, body = null} : IApiFetch) => {
         body: body ? JSON.stringify(body) : null
     }
 
-    console.log(fetchParams)
+    console.log(fetchParams, "fetchparams")
 
-    const response = await fetch(`${apiUrl}${url}`, fetchParams)
+    const response = await fetch(`${config.API_URL}${url}`, fetchParams)
 
     const responseData = await response.json()
 
