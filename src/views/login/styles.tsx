@@ -38,4 +38,4 @@ const boxStyles = {
   display: "flex"
 };
 
-export { gridStyles, buttonStyles, buttonSingInStyles, typographyStyles };
+export { boxStyles, gridStyles, buttonStyles, buttonSingInStyles, typographyStyles };
