@@ -1,86 +1,63 @@
 import { create } from "zustand";
+import { apiFetch } from "../helpers";
+import { IUrlForm } from "../../views/profile";
 
-const _url = 'http://ec2-54-160-84-172.compute-1.amazonaws.com:3000'
 
+interface IUrl{
+    id: number
+    name: string
+    url: string
+    user_id : string
+}
 
-const getDataUrls = (set : any, get: any)  => async (token: string) => {    
+interface  IProfileStore {
+    urls: IUrl[]
+    getDataUrls: () => void
+    addUrl: (data: IUrlForm) => void
+}
 
-    const params = {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'authorization': `Bearer ${token}`
-        }
+const getDataUrls = (set : any, get: any)  => async () => {    
+
+    const response = await apiFetch({method: "GET", url: "/links"})
+
+    console.log(response)
+
+    if(response.message === "success"){
+        set({urls: response.data})
     }
 
-    const response = await fetch(`${_url}/links`, params)
 
-    if (response.status !== 200) {
-        throw "Error signin"
+}
+
+const deleteUrl = (set : any, get: any)  => async (id: number) => {
+
+    const _urls = get().urls
+
+    const response = await apiFetch({method: "DELETE", url: "/links", body: {id}})
+
+    console.log(response)
+
+    if(response.message === "success"){
+        const newUrls = [..._urls].filter( url => url.id !== id)
+        set({urls: newUrls})
     }
-        
-    const dataUrls = await response.json()
 
-    set({urls: {data: dataUrls.data}})
 
+}
+const addUrl = (set : any, get: any)  => async (data : IUrlForm) => { 
+    const urlsCurrent = get().urls
+    const response = await apiFetch({method: "POST", url: "/links/add", body: data })
+
+    console.log(response)
+
+    if(response.message === "success"){
+        set({urls: [...urlsCurrent, response.data]})
+    }
     
 }
 
-
-const deleteUrl = (set : any, get: any)  => async (token : string, id: number ) => { 
-    const params = {
-        method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json',
-            'authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({
-            id: id
-        })
-    }
-
-    const response = await fetch(`${_url}/links`, params)
-        console.log(response, "hhhh");
-        
-
-        if (response.status !== 200) {
-            throw "Error add url"
-        }
-            
-        const dataUrl = await response.json()
-        console.log(dataUrl, "data delete");
-
-}
-
-const addUrl = (set : any, get: any)  => async (token: string, data : any) => { 
-    const params = {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify(data)
-    }
-
-    const response = await fetch(`${_url}/links/add`, params)
-        
-
-        if (response.status !== 200) {
-            throw "Error add url"
-        }
-            
-        const dataUrl = await response.json()
-        console.log(dataUrl, "data user");
-
-        const urlsCurrent = get().urls
-    
-        set({urls: {...urlsCurrent, data: [...urlsCurrent.data, dataUrl.data]}})
-}
-
-
-
-export const useProfileStore = create((set, get) => ({
-    urls: {},
+export const useProfileStore = create<IProfileStore>((set, get) => ({
+    urls: [],
     getDataUrls: getDataUrls(set, get),
     deleteUrl: deleteUrl(set, get),
     addUrl: addUrl(set, get)

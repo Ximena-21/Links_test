@@ -3,9 +3,9 @@ import { useUserStore } from "../../stores/userStore";
 
 export const PrivateRoute = ({ children } : { children: JSX.Element }) => {
 
-    const currentUser = JSON.parse(localStorage.getItem("user") as string)
+    const user = useUserStore( (state: any ) => state.user)
 
-    const isAuthenticated = currentUser != null ? true : false
+    const isAuthenticated = !!user.token
         
     if (isAuthenticated ) {
       return children
@@ -13,8 +13,3 @@ export const PrivateRoute = ({ children } : { children: JSX.Element }) => {
       
     return <Navigate to='/' replace />
   }
-
-
-//   const PrivateRoute = ({ auth: { isAuthenticated }, children }) => {
-//     return isAuthenticated ? children : <Navigate to="/login" />;
-//   };

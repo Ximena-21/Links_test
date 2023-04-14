@@ -1,88 +1,70 @@
 import { create } from "zustand";
+import { ILoginForm } from "../../views/login";
+import { apiFetch } from "../helpers";
+import { ISignUpForm } from "../../views/signup";
 
+interface IUser {
+  id: number
+  name: string
+  email: string
+  password: string
+  image: string
+}
 
-const _url = 'http://ec2-54-160-84-172.compute-1.amazonaws.com:3000/auth'
+interface IUserStore {
+  user: {
+    data: IUser,
+    token: string
+  }
+  alert: string
+  signInUser: (data: ISignUpForm, callback: () => void) => void
+  loginUser: (data: ILoginForm) => void
+  logOut: () => void
+  setAlert: (message: string) => void 
+}
 
-const signInUser = (set : any, get: any)  => async (data : any)=> {
+const signInUser = (set: any, get: any) => async (data: ISignUpForm, callback: () => void) => {
 
-        const currentUser = get()
-        const params = {
-            method: 'POST',
-            headers: {
-                'accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        }
+  const response = await apiFetch({method: "POST", url: "/auth/singin", body: data})
 
-        console.log("params", params);
-        
+  if(response.error){
+    return alert(response.error)
+  }
 
-        const response = await fetch(`${_url}/singin`, params)
-        console.log(response, "hhhh");
-        
+  if(typeof callback === "function") callback()
 
-        if (response.status !== 200) {
-            throw "Error signin"
-        }
-            
-        const dataUser = await response.json()
-        console.log(dataUser, "data user");
+};
 
-        // set({ currentUser, data: dataUser.data}) //data usuario 
-    }
+const loginUser = (set: any, get: () => IUserStore) => async (data: ILoginForm) => {
 
-    const loginUser = (set : any, get: any)  => async (data : any) => {
+  const setAlert = get().setAlert
+  const response = await apiFetch({method: "POST", url: "/auth/login", body: data})
 
-        // console.log("data entra peticion login", data);
-        // const currentUser = get()
-        // console.log("usuario actual", currentUser);
-        
+  if (response.message === "success") {
+    const user = { data: response.data, token: response.token };
+    localStorage.setItem("user", JSON.stringify(user));
+    set({ user: user });
+  } else {
+    setAlert(response.message)
+    console.log("no hay usuario para loguear", response);
+  }
+};
 
-        const params = {
-            method: 'POST',
-            headers: {
-                'accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        }
+const logOut = (set: any, get: any) => () => {
+  localStorage.removeItem("user")
+  set({user: {}})
+}
 
-        const response = await fetch(`${_url}/login`, params)
-        console.log("data user login", response)
+const setAlert = (set: any, get: any) => (message: string) => {
 
-        
-        if (response.status !== 200) {
-            throw "Error login"
-        }
-        
-        const dataUser = await response.json() //recibo el token
-        console.log("data user login", dataUser)
+  set({alert: message})
+}
 
-        if (dataUser.message === 'success' ) { // asi el mensaje sea diferente entra al condicional
-            
-            const user = {data: dataUser.data, token: dataUser.token}
-            localStorage.setItem("user", JSON.stringify(user))
-            set({ user: user})
-            console.log("si hay ususario que loguear")
-            
-        } else {
-
-            console.log("no hay usuario para loguear");
-        }
-
-    }
-
-
-
-
-export const useUserStore = create((set, get) => ({
-    user: {},
-    signInUser: signInUser(set, get),
-    loginUser: loginUser(set, get)
-    // ...effects(set, get),
-    // increasePopulation: () => set((state:any) => {
-    //     return { bears: state.bears + 1 }
-    //     )},
-    // removeAllBears: () => set({ bears: 0 }),
-  }))
+export const useUserStore = create<IUserStore>((set, get) => ({
+  alert: "",
+  user: JSON.parse(localStorage.getItem("user") || "{}"),
+  signInUser: signInUser(set, get),
+  loginUser: loginUser(set, get),
+  logOut: logOut(set,get),
+  setAlert: setAlert(set,get)
+}));

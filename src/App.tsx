@@ -1,16 +1,15 @@
-import { useState } from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom'
 import { Login } from './views/login'
 import { Profile } from './views/profile'
 import { Signup } from './views/signup'
 import { PrivateRoute } from './lib/components/PrivateRoute'
+import { useUserStore } from './lib/stores/userStore'
+import { useEffect } from 'react'
 
 const App = () => {
-  // const [count, setCount] = useState(0)
 
   const routes = [
-    // { path: "signup/", element: <Singup /> },
-    { path: "profile/", element: <Profile /> }
+    { path: "profile", element: <Profile /> }
   ]
 
   return (
@@ -18,7 +17,7 @@ const App = () => {
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<Login />} />
-          <Route path='signup/' element={<Signup />} />
+          <Route path='signup' element={<Signup />} />
           {
             routes.map((route, index)=>(
               <Route key={index} path={route.path} element={
